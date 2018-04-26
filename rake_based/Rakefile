@@ -1,0 +1,5 @@
+Rake.add_rakelib 'tasks'
+
+task :default do
+  sh 'rake -T'
+end

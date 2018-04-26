@@ -1,0 +1,36 @@
+Unity:
+  windows: "'C:/Program Files/Unity/Hub/Editor/2017.4.0f1/Editor/Unity.exe"
+  osx:
+
+BuildMethod:
+  UNITY_BUILD_METHOD_AND: 'NFEditor.Batch.ExecuteMethods.BuildAnd'
+  UNITY_BUILD_METHOD_IOS: 'NFEditor.Batch.ExecuteMethods.BuildIOS'
+  UNITY_BUILD_METHOD_WIN: 'ExecuteMethods.WINDOWS_DEV'
+  UNITY_BUILD_METHOD_BUNDLE: 'NFEditor.Batch.ExecuteMethods.BuildPatchResource'
+
+ios:
+  PROVISIONING_NAME:
+  EXPORT_OPTION_ADHOC_PLIST: build_resources/apple/export_option_adhoc.plist
+
+Project:
+  unity_project: q1
+  build: __BUILD
+  ipa: __BUILD/ipa
+  log: __BUILD/log
+  assetbundle: __ASSETBUNDLE
+
+Jenkins:
+  url: http://JENKINS_URL:8080
+  job:
+    build_and: BUILD_AND
+    build_ios: BUILD_IOS
+
+S3:
+  region: ap-northeast-1
+  bucket: "a"
+  credentials: build_resources/s3_access_credentials
+
+Hockey:
+  and_dev:
+    service_token:
+    app_id:
