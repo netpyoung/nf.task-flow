@@ -7,7 +7,6 @@ rake-based
 gem install bundler
 bundle install
 rake -T
-
 ```
 
 ## access config

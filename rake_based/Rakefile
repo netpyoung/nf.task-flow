@@ -1,5 +1,8 @@
 Rake.add_rakelib 'tasks'
 
+# bundle instll
+# bundle update
+
 task :default do
   sh 'rake -T'
 end
