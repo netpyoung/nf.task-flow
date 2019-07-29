@@ -1,20 +1,10 @@
 # -*- coding: utf-8 -*-
 require_relative 'utils/util.rb'
+require_relative 'utils/file_logger.rb'
 require_relative 'utils/slack.rb'
 require_relative 'utils/hockeyapp.rb'
-require_relative 'utils/Global.rb'
-
+require_relative 'utils/global.rb'
 require 'rake'
-
-desc "ff"
-task :ff do
-  puts Global.config.Jenkins.url
-  a = 10
-  puts Global.config.Unity.windows
-  puts Global.config.Project
-  puts Global.config['Project']
-
-end
 
 ###################################
 #

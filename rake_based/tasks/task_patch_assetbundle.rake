@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 require_relative 'utils/util.rb'
 require_relative 'utils/api_server.rb'
+require_relative 'utils/file_logger.rb'
 
 require 'rake'
 require 'hash_validator'
@@ -18,8 +19,8 @@ require 'open3'
 
 desc "PATCH_ASSETBUNDLE"
 task :patch_assetbundle, [:TARGET] do |t, args|
-puts ENV['BUILD_NUMBER']
-	Rake::Task["_patch_assetbundle"].invoke('JPN', 'DEV', args.TARGET)
+  puts ENV['BUILD_NUMBER']
+  Rake::Task["_patch_assetbundle"].invoke('JPN', 'DEV', args.TARGET)
 end
 
 
@@ -34,7 +35,7 @@ task :_patch_assetbundle, [:COUNTRY, :STAGE, :TARGET] do |t, args|
   validator = HashValidator.validate(args.to_hash, validations)
   if not validator.valid?
     bot("[DATAPATCH][FAIL] invalidate : #{args} | #{validations} | #{validator.errors}")
-    exit -1;
+    exit(1)
   end
 
   # ref: http://blog.naver.com/3takugarden/220397979971
@@ -86,16 +87,15 @@ task :_patch_assetbundle, [:COUNTRY, :STAGE, :TARGET] do |t, args|
 
   pre_ver, nxt_ver = APIServer.new(URL_DEV).with_bundle(target) do |pre_ver, nxt_ver|
     version = 0 # 0 is latest
-	cmd = "aws s3 sync #{BUNDLE_UPLOAD_DIR} #{S3_BUCKET_JPN_DEV}/resource_#{target.downcase}/#{version}/ --acl public-read  --region ap-northeast-1"
+    cmd = "aws s3 sync #{BUNDLE_UPLOAD_DIR} #{S3_BUCKET_JPN_DEV}/resource_#{target.downcase}/#{version}/ --acl public-read  --region ap-northeast-1"
+    puts cmd
 
-	puts cmd
-
-	# ref: http://docs.aws.amazon.com/cli/latest/userguide/cli-environment.html
+    # ref: http://docs.aws.amazon.com/cli/latest/userguide/cli-environment.html
     Open3.popen3({"AWS_CONFIG_FILE" => AWS_CONFIG_FILE}, cmd) do |stdin, stdout, stderr, wait_thr|
-	  puts ENV['cd ']
-	  if stderr
-		puts stderr.read
-	  end
+      puts ENV['cd ']
+      if stderr
+	puts stderr.read
+      end
       output = stdout.read
       puts output
       bot(output) if is_build_machine()
@@ -103,6 +103,7 @@ task :_patch_assetbundle, [:COUNTRY, :STAGE, :TARGET] do |t, args|
     puts BUNDLE_UPLOAD_DIR
   end
 
+  puts "#{pre_ver}, #{nxt_ver}"
   bot("[DONE] patch_assetbundle #{target}") if is_build_machine()
   puts "DONE"
   ## end

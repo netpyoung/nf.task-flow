@@ -2,6 +2,7 @@
 # Unity3D ios빌드 자동화.
 require_relative 'utils/slack.rb'
 require_relative 'utils/util.rb'
+require_relative 'utils/file_logger.rb'
 require_relative 'utils/hockeyapp.rb'
 
 
