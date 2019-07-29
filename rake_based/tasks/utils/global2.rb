@@ -1,7 +1,7 @@
-module Global
-  require 'ostruct'
-  require 'yaml'
+require 'ostruct'
+require 'yaml'
 
+module Global
   def self.config
     @config ||= to_ostruct(YAML.load_file("config.yaml"))
   end

@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-require 'file-tail'
-require 'thread'
 require 'tempfile'
 
 
@@ -41,34 +39,11 @@ module OSCheck
   end
 end
 
-
-# http://flori.github.io/file-tail
-class FileLogger
-
-  def initialize(filename, interval)
-    @thread = Thread.new do
-      File.open(filename) do |log|
-        log.extend(File::Tail)
-        log.interval = interval
-        log.backward(0)
-        log.tail { |line| puts line }
-      end
-    end
-  end
-
-  def stop()
-    sleep(1)
-    @thread.exit
-  end
-end
-
-
 def is_build_machine()
   return (ENV['BUILD_NUMBER'] != nil)
 end
 
-
-def strip_text (text)
+def strip_text(text)
   splited = text.split("\n")
   if splited.count == 1
     return text
